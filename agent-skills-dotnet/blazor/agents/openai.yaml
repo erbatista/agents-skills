@@ -1,0 +1,5 @@
+interface:
+  display_name: "Blazor Conventions"
+  short_description: "Repo conventions, Blazor pitfalls, and validation commands for Blazor work"
+policy:
+  allow_implicit_invocation: true
