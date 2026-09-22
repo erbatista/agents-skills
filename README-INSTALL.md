@@ -7,7 +7,7 @@
 - `dotnet-wpf/` — stack layer for C#/.NET/WPF: conventions table, feature and bug checklists, validation commands
 - `blazor/` — starter stack layer for Blazor, same shape
 - `review-gate/` — independent verifier: PASS/FAIL verdict on a plan, root cause, or diff against Gherkin criteria
-- `api-feature/` — company-specific front end to feature-development: WPF UI for a new `.proto` + generated C# contract under `C:\Dev\Api`, patterned on an exemplar feature
+- `api-feature/` — company-specific front end to feature-development: WPF UI for a new `.proto` + generated C# contract under `C:\Dev\ApiSource`, patterned on an exemplar feature
 - `claude-agents/review-gate.md` — optional Claude Code subagent definition; copy to `.claude/agents/` (not a skill)
 - `AGENTS-snippet.md` — block to paste into each repository's `AGENTS.md` / `CLAUDE.md`
 - `README-INSTALL.md` — this file
@@ -71,13 +71,13 @@ If no independent agent can be started, the report says `not run` for that gate;
 
 ## How api-feature works
 
-Company-specific, Codex CLI only: it reads `C:\Dev\Api\<category>\` and an exemplar folder, both outside the working directory, so it needs a sandbox mode that allows reads there (the default workspace-write mode does not). Invoke it explicitly:
+Company-specific, Codex CLI only: it reads `C:\Dev\ApiSource\<category>\`, `C:\Dev\Api\ApiContract.dll`, and an exemplar folder, all outside the working directory, so it needs a sandbox mode that allows reads there (the default workspace-write mode does not). Invoke it explicitly:
 
 ```
 $api-feature category=Kitchen api=rangeOperation ref=C:\Dev\Patio  expose only Start and Stop; the list should refresh while the view is open
 ```
 
-It resolves the `.proto` and generated `.cs`, extracts services, RPCs, messages and enums, inventories the exemplar into a copy / derive / conform table, writes Gherkin scenarios per operation, and hands off to `feature-development`, so the plan gate and diff gate run as usual. `ref` is optional when the repository's `AGENTS.md` names a canonical exemplar (see the snippet). Contract types come only from the API assembly the product references; the skill checks that the `.proto`, the generated `.cs`, and the referenced assembly agree before planning, and stops with a clear message if regeneration or a rebuild of `api.dll` is needed. The contract version (git hash or file timestamp) is recorded in the report.
+It resolves the `.proto` and generated `.cs`, extracts services, RPCs, messages and enums, inventories the exemplar into a copy / derive / conform table, writes Gherkin scenarios per operation, and hands off to `feature-development`, so the plan gate and diff gate run as usual. `ref` is optional when the repository's `AGENTS.md` names a canonical exemplar (see the snippet). Contract types come only from `C:\Dev\Api\ApiContract.dll`, the single assembly built from every category's generated `.cs`; the skill checks that the `.proto`, the generated `.cs`, and the dll agree before planning, and stops with a clear message if regeneration or a rebuild is needed. The contract version (git hash or file timestamp) is recorded in the report.
 
 ## How the routing works
 

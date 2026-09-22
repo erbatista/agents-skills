@@ -25,7 +25,7 @@ This repository is a .NET <version> / WPF solution (`<path/to/solution.sln>`).
 | User-facing error contract | <...> |
 | Plan-pause file threshold | 8 |
 | Canonical exemplar feature (for `api-feature`) | <absolute path, e.g. C:\Dev\Patio, or a folder in this repo> |
-| API assembly reference | <how product projects reference api.dll: project reference / package + version / binary path> |
+| API assembly reference | C:\Dev\Api\ApiContract.dll (binary reference; note the hint path form used in this repo's .csproj files) |
 
 Validation commands:
 

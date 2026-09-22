@@ -7,7 +7,7 @@ Read during step 3 of `api-feature`.
 1. List every file under `ref` (recursively, excluding `bin`, `obj`, generated code).
 2. Classify each file as one of: View (XAML + code-behind), ViewModel, model / DTO mapping, service wrapper (interface + implementation around the generated client), DI registration, navigation or menu entry, resources / styles / templates, converters, validation, tests, other.
 3. Read in full: the View, the ViewModel, the service wrapper, the DI registration. Skim the rest.
-4. Note how the exemplar's project references the API assembly (project reference, package version, or binary path). The new feature's project references it the same way; if it already does, nothing to add.
+4. Note how the exemplar's project references `C:\Dev\Api\ApiContract.dll` in its `.csproj` (hint path form, `Private`/copy-local setting). The new feature's project references it the same way; if it already does, nothing to add.
 5. Note the naming pattern (for example `<Feature>View`, `<Feature>ViewModel`, `I<Feature>Service`, `<Feature>Module`) and the exemplar's feature name; the latter is what the leftover search looks for before the diff gate.
 
 ## The three sources, and which one wins
