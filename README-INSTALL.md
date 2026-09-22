@@ -9,8 +9,10 @@
 - `review-gate/` — independent verifier: PASS/FAIL verdict on a plan, root cause, or diff against Gherkin criteria
 - `api-feature/` — company-specific front end to feature-development: WPF UI for a new `.proto` + generated C# contract under `C:\Dev\ApiSource`, patterned on an exemplar feature
 - `claude-agents/review-gate.md` — optional Claude Code subagent definition; copy to `.claude/agents/` (not a skill)
+- `codex-agents/review-gate.toml` — Codex custom agent definition; copy to `.codex/agents/` (not a skill)
 - `AGENTS-snippet.md` — block to paste into each repository's `AGENTS.md` / `CLAUDE.md`
 - `README-INSTALL.md` — this file
+- `HOW-IT-WORKS.md` — plain-words guide for the team: how the skills fit together and how Claude Code and Codex differ
 
 ## Where to put them — pick a scope
 
@@ -30,7 +32,7 @@ Recommended setup:
 - **Personal (Claude Code):** copy the five generic folders once into `~/.claude/skills/` (`api-feature` is company-specific; skip it). Add the snippet block to each project's `CLAUDE.md`; a project without one gets inferred conventions, flagged in the report.
 - Codex follows symlinks, so `~/.agents/skills/` can be a symlink into your `agent-skills` checkout instead of a copy.
 
-Do not install the same skill name at two scopes in Codex; it lists both instead of merging them. Folder names must match the `name` field in each `SKILL.md`; do not rename them. `AGENTS-snippet.md`, `claude-agents/`, and this README are not skills; keep them out of the skills folder. Codex and Claude Code pick up new or changed skills automatically; restart if one does not appear.
+Do not install the same skill name at two scopes in Codex; it lists both instead of merging them. Folder names must match the `name` field in each `SKILL.md`; do not rename them. `AGENTS-snippet.md`, `claude-agents/`, `codex-agents/`, `HOW-IT-WORKS.md`, and this README are not skills; keep them out of the skills folder. Codex and Claude Code pick up new or changed skills automatically; restart if one does not appear.
 
 The tree at either location should look like:
 
@@ -64,7 +66,7 @@ Both workflow skills write the acceptance criteria as Gherkin scenarios in step 
 Wiring per tool:
 
 - **Claude Code:** copy `claude-agents/review-gate.md` into `.claude/agents/` (project) or `~/.claude/agents/` (personal). The workflow skill asks for the `review-gate` subagent and passes the package in the prompt.
-- **Codex CLI:** recent versions support subagents (`spawn_agent`, agent definitions under `~/.codex/agents/`, `/agent` view); the feature has changed across 2026 releases, so check the installed version's docs and define a reviewer agent that reads the `review-gate` skill. Until that is set up, the fallback is a second Codex session: paste the handoff package and start with `$review-gate`. `@codex review` on the pull request is a weaker substitute because it does not receive the scenarios.
+- **Codex CLI:** copy `codex-agents/review-gate.toml` into the repo's `.codex/agents/` (commit it) or `~/.codex/agents/`. Current releases have subagents on by default; older ones need `/experimental` → Multi-agents (or `[features] multi_agent = true` in `~/.codex/config.toml`), then a restart. Codex spawns a subagent only when told explicitly; the workflow skills' "Running a gate" section is that instruction. If a run still skips the gate, add "spawn the review-gate agent for the gates" to your prompt and check `/agent` for the spawned thread. Fallback at any time: the worker prints the handoff package before spawning; paste it into a second Codex session started with `$review-gate`.
 - `review-gate` has implicit invocation turned off on purpose, so a worker session cannot pick it up by accident and review its own work under the gate's name. Invoke it explicitly, or through the subagent definition.
 
 If no independent agent can be started, the report says `not run` for that gate; the workflow still completes.

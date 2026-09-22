@@ -16,7 +16,12 @@ Precedence when instructions conflict, highest first:
 
 ## Running a gate
 
-A gate is a separate agent with a fresh context: a subagent, or a new session when subagents are unavailable. Give it only the handoff package defined in the `review-gate` skill (mode, request, criteria, artifact, stack skill, round). Never run a gate inside your own context and never pass it your transcript. If no independent agent can be started in this environment, write `not run` for that gate in the report; reviewing your own work is not a gate.
+A gate is a separate agent with a fresh context. This section is the explicit instruction to start one:
+
+- Codex: spawn a subagent using the custom agent named `review-gate`; if that agent is not defined, spawn a default subagent and tell it to load the `review-gate` skill. Wait for its verdict.
+- Claude Code: use the `review-gate` subagent.
+
+Before spawning, print the handoff package in full (mode, request, criteria, artifact, stack skill, round, as defined in the `review-gate` skill) so the user can rerun the gate by hand if needed. Give the gate only that package. Never run a gate inside your own context and never pass it your transcript. If spawning fails or subagents are disabled, do not review your own work: write `not run (subagents unavailable)` for that gate in the report and tell the user to run it manually in a second session with `$review-gate` and the printed package.
 
 ## 0. Identify the stack
 
