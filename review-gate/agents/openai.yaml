@@ -1,5 +1,0 @@
-interface:
-  display_name: "Review Gate"
-  short_description: "Independent PASS/FAIL verification of a plan, root cause, or diff against Gherkin criteria"
-policy:
-  allow_implicit_invocation: false

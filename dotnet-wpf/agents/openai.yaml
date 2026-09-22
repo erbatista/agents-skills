@@ -1,5 +1,0 @@
-interface:
-  display_name: ".NET / WPF Conventions"
-  short_description: "Repo conventions, WPF pitfalls, and validation commands for C#/.NET/WPF work"
-policy:
-  allow_implicit_invocation: true

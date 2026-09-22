@@ -1,5 +1,0 @@
-interface:
-  display_name: "Bug Fixing"
-  short_description: "Reproduce, find the root cause, add a regression test, apply the smallest safe fix"
-policy:
-  allow_implicit_invocation: true

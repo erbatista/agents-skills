@@ -1,6 +1,0 @@
-interface:
-  display_name: "API Feature (contract → WPF UI)"
-  short_description: "Build the WPF screen for a new .proto contract, patterned on an exemplar feature"
-  default_prompt: "$api-feature category= api= ref= "
-policy:
-  allow_implicit_invocation: true
